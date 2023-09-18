@@ -1,15 +1,17 @@
-import React from "react";
-import Courts from "./components/Courts";
+import React from 'react';
+import Courts from './components/Courts'
 
 export const metadata = {
-    title: "About",
+    title:'About',
 };
 
-const Page = () =>{
-    return (<div>
-    <Courts />
+const page = () => {
+  return (
+    <div>
+
+      <Courts/>
     </div>
-    );
-};
+  )
+}
 
-export default Page;
+export default page
