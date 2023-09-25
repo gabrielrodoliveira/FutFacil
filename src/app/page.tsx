@@ -3,14 +3,14 @@
 import Image from 'next/image'
 import { Inter } from "next/font/google";
 import { signIn, signOut, useSession } from 'next-auth/react';
+import CourtSearch from './components/CourtSearch/Index';
 
 
 export default function Home() {
   const { data } = useSession()
-
-  return (  
-  <div>
-      
-  </div>
- );
+  return (
+    <div>
+      <CourtSearch />
+    </div>
+  );
 }
