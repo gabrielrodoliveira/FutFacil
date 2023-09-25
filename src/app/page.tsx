@@ -3,7 +3,8 @@
 import Image from 'next/image'
 import { Inter } from "next/font/google";
 import { signIn, signOut, useSession } from 'next-auth/react';
-import CourtSearch from './components/CourtSearch/Index';
+import CourtSearch from './components/CourtSearch';
+import QuickSearch from './components/QuickSearch';
 
 
 export default function Home() {
@@ -11,6 +12,7 @@ export default function Home() {
   return (
     <div>
       <CourtSearch />
+      <QuickSearch />
     </div>
   );
 }
