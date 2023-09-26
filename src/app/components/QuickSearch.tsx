@@ -30,6 +30,7 @@ const QuickSearch = () => {
                 <Image width={35} height={35} src="/volei-de-praia.png" alt='volei de praia'/>
                 <p className='text-sm text-grayLighter'>Volei de Praia</p>
             </div>
+            
 
         </div>
     </div>
