@@ -16,7 +16,7 @@ const CourtSearch = () => {
 
             <div className="flex gap-4">
                 <DatePicker placeholderText='Data disponível' onChange={() => {}} className='w-full'/>
-                <CurrencyInput placeholder='Valor' />
+                <Input placeholder='Valor' />
             </div>
 
             <Button>

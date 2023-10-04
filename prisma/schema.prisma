@@ -24,6 +24,7 @@ model Court {
   reservation      CourtReservation[]
   countryCode      String
   recommended      Boolean            @default(false)
+  timeReserve      String[]
 }
 
 model CourtReservation {
