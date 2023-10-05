@@ -3,6 +3,7 @@ import Image from 'next/image';
 import React from 'react';
 import CourtHeader from './components/CourtHeader';
 import CourtReservation from './components/CourtReservation';
+import CourtDescription from './components/CourtDescription';
 
 const getCourtDetails = async (courtId: string) => {
   const court = await prisma.court.findUnique({
@@ -26,6 +27,7 @@ const CourtDetails = async ({ params }: { params: { courtId: string } }) => {
 
     {/*  RESERVA */}
     <CourtReservation court={court}/>
+    <CourtDescription description={court.description}/>
 
     </div>
   )
