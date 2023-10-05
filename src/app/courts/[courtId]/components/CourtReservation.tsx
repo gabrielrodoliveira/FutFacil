@@ -4,6 +4,7 @@ import DatePicker from '@/components/DatePicker'
 import React from 'react'
 import { Court } from '@prisma/client';
 import TimeListButton from '@/components/TimeListButton';
+import Button from '@/components/Button';
 
 
 
@@ -28,10 +29,15 @@ const CourtReservation = ({ court }: CourtReservationProps) => {
         <div className="flex gap-4">
           <DatePicker placeholderText='Data disponivel' onChange={() => { }} className='w-full' />
         </div>
-
-
         <TimeListButton className="my-4 text-primary" times={horarios} />
 
+        <div className="flex justify-between mt-3">
+          <p className='font-medium text-sm text-primary'>Total: </p>
+          <p className='font-medium text-sm text-primary'>R$ {court.priceReservation.toString()} </p>
+        </div>
+
+
+        <Button className='mt-3'>Reservar agora</Button>
       </div>
 
     </div>
