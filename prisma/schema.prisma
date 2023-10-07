@@ -11,20 +11,22 @@ datasource db {
 }
 
 model Court {
-  id               String             @id @default(uuid()) //Se a quadra criada não houver ID, vai colocar o default com ID aleatório.
-  name             String
-  location         String
-  dateReservation  DateTime
-  timeReservation  String
-  priceReservation Decimal            @db.Decimal(8, 2)
-  description      String
-  coverImage       String
-  imagesUrl        String[]
-  highlights       String[]
-  reservation      CourtReservation[]
-  countryCode      String
-  recommended      Boolean            @default(false)
-  timeReserve      String[]
+  id                  String             @id @default(uuid()) //Se a quadra criada não houver ID, vai colocar o default com ID aleatório.
+  name                String
+  location            String
+  locationDescription String             @default("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.") //remover
+  dateReservation     DateTime
+  timeReservation     String //remover
+  priceReservation    Decimal            @db.Decimal(8, 2)
+  description         String
+  coverImage          String
+  imagesUrl           String[]
+  highlights          String[]
+  reservation         CourtReservation[]
+  countryCode         String
+  recommended         Boolean            @default(false)
+  timeReserve         String[]
+  descriptionLocation String             @default("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.")
 }
 
 model CourtReservation {

@@ -29,7 +29,7 @@ const CourtReservation = ({ court }: CourtReservationProps) => {
         <div className="flex gap-4">
           <DatePicker placeholderText='Data disponivel' onChange={() => { }} className='w-full' />
         </div>
-        <TimeListButton className="my-4 text-primary" times={horarios} />
+        <TimeListButton className="w-full mt-4 text-primary" times={horarios} />
 
         <div className="flex justify-between mt-3">
           <p className='font-medium text-sm text-primary'>Total: </p>

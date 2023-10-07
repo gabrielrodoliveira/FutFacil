@@ -5,6 +5,7 @@ import CourtHeader from './components/CourtHeader';
 import CourtReservation from './components/CourtReservation';
 import CourtDescription from './components/CourtDescription';
 import CourtHighlights from './components/CourtHighlights';
+import CourtLocation from './components/CourtLocation';
 
 const getCourtDetails = async (courtId: string) => {
   const court = await prisma.court.findUnique({
@@ -24,12 +25,11 @@ const CourtDetails = async ({ params }: { params: { courtId: string } }) => {
   return (
     <div className='container mx-auto'>
 
-      <CourtHeader court={court}/>
-
-    {/*  RESERVA */}
+    <CourtHeader court={court}/>
     <CourtReservation court={court}/>
     <CourtDescription description={court.description}/>
     <CourtHighlights highlights={court.highlights}/>
+    <CourtLocation  location={court.location} descriptionLocation={court.description} />
     </div>
   )
 }

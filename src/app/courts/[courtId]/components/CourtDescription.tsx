@@ -9,7 +9,7 @@ const CourtDescription = ({description}: CourtDescriptionProps) => {
   return (
     <div className="flex flex-col p-5">
         <h2 className='font-semibold text-primary'>Sobre a quadra</h2>
-        <p className='text-xs leading-5 text-black mt-1'>{description}</p>
+        <p className='text-xs leading-5 text-black mt-1 text-justify'>{description}</p>
     </div>
   )
 }
