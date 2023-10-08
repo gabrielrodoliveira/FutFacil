@@ -1,17 +1,18 @@
 'use client'
 
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/DatePicker';
 import React, { useState } from 'react';
 import { Court } from '@prisma/client';
 import TimeListButton from '@/components/TimeListButton';
 import Button from '@/components/Button';
-
+import { useForm } from "react-hook-form";
 
 
 
 interface CourtReservationProps {
   court: Court
 }
+
 
 const horarios = [
   "08h00 - 10h00",
@@ -25,6 +26,13 @@ const horarios = [
 
 const CourtReservation = ({ court }: CourtReservationProps) => {
   const [selectedHorario, setSelectedHorario] = useState<string | null>(null);
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = (data: any) => {
+    console.log({ data })
+  }
+
+
   return (
 
     <div className="flex flex-col px-5">
@@ -41,11 +49,11 @@ const CourtReservation = ({ court }: CourtReservationProps) => {
       </div>
 
       <div className='pb-10 border-b border-l-grayLighter w-full'>
-        <Button className='mt-3 w-full'>Reservar agora</Button>
+        <Button onClick={() => handleSubmit(onSubmit)()} className='mt-3 w-full'>Reservar agora</Button>
       </div>
 
       <label className="mt-3 text-primary">Horário selecionado:</label>
-      <input type="text" value={selectedHorario || ''} readOnly className="border-b-2 border-primary"/>
+      <input {...register('hours', { required: true })} type="text" value={selectedHorario || ''} readOnly className="border-b-2 border-primary" />
 
     </div>
 
