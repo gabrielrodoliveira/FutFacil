@@ -4,9 +4,9 @@ import { twMerge } from "tailwind-merge";
 
 interface TimeListButtonProps extends ComponentPropsWithoutRef<"button"> {
   times: string[]; // Array de horários que você deseja exibir
+  onTimeSelect: (horario: string) => void; // Renomeie a propriedade para evitar conflitos
 }
-
-function TimeListButton({ className, times, ...props }: TimeListButtonProps) {
+function TimeListButton({ className, times, onTimeSelect, ...props }: TimeListButtonProps) {
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -17,6 +17,7 @@ function TimeListButton({ className, times, ...props }: TimeListButtonProps) {
   const handleTimeClick = (time: string) => {
     setSelectedTime(time);
     setIsOpen(false);
+    onTimeSelect(time); // Chame a função onTimeSelect com o horário selecionado
   };
 
   const _className = twMerge(
