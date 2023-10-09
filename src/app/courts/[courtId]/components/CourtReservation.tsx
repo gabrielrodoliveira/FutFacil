@@ -6,8 +6,11 @@ import { Court } from '@prisma/client';
 import TimeListButton from '@/components/TimeListButton';
 import Button from '@/components/Button';
 import { useForm } from "react-hook-form";
+import Input from '@/components/Input';
 
-
+interface CourtReservationForm{
+  hours: string;
+}
 
 interface CourtReservationProps {
   court: Court
@@ -26,7 +29,11 @@ const horarios = [
 
 const CourtReservation = ({ court }: CourtReservationProps) => {
   const [selectedHorario, setSelectedHorario] = useState<string | null>(null);
-  const { register, handleSubmit } = useForm();
+  const { 
+    register, 
+    handleSubmit, 
+    formState: { errors },
+   } = useForm<CourtReservationForm>();
 
   const onSubmit = (data: any) => {
     console.log({ data })
@@ -41,10 +48,21 @@ const CourtReservation = ({ court }: CourtReservationProps) => {
       </div>
 
       <TimeListButton className="w-full mt-4 text-primary" times={horarios} onTimeSelect={setSelectedHorario} />
-
+      <Input
+        {...register('hours', {
+          required: {
+            value: true,
+            message: 'Horário é obrigatório'
+          },
+        })}
+        placeholder='Horário da Reserva'
+        error={!!errors?.hours} 
+        errorMessage={errors?.hours?.message} 
+        />
 
       <div className="flex justify-between mt-3">
         <p className='font-medium text-sm text-primary'>Total: </p>
+        {/* <label className="mt-3 text-primary">{selectedHorario}</label> */}
         <p className='font-medium text-sm text-primary'>R$ {court.priceReservation.toString()} </p>
       </div>
 
@@ -52,8 +70,8 @@ const CourtReservation = ({ court }: CourtReservationProps) => {
         <Button onClick={() => handleSubmit(onSubmit)()} className='mt-3 w-full'>Reservar agora</Button>
       </div>
 
-      <label className="mt-3 text-primary">Horário selecionado:</label>
-      <input {...register('hours', { required: true })} type="text" value={selectedHorario || ''} readOnly className="border-b-2 border-primary" />
+      {/* <label className="mt-3 text-primary">Horário selecionado:</label> */}
+      {/* <input {...register('hours', { required: true })} type="text" value={selectedHorario || ''} readOnly className="border-b-2 border-primary" /> */}
 
     </div>
 
