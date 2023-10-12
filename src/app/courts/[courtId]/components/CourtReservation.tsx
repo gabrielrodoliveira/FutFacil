@@ -8,7 +8,7 @@ import Button from '@/components/Button';
 import { useForm } from "react-hook-form";
 import Input from '@/components/Input';
 
-interface CourtReservationForm{
+interface CourtReservationForm {
   hours: string;
 }
 
@@ -29,11 +29,11 @@ const horarios = [
 
 const CourtReservation = ({ court }: CourtReservationProps) => {
   const [selectedHorario, setSelectedHorario] = useState<string | null>(null);
-  const { 
-    register, 
-    handleSubmit, 
+  const {
+    register,
+    handleSubmit,
     formState: { errors },
-   } = useForm<CourtReservationForm>();
+  } = useForm<CourtReservationForm>();
 
   const onSubmit = (data: any) => {
     console.log({ data })
@@ -47,7 +47,12 @@ const CourtReservation = ({ court }: CourtReservationProps) => {
         <DatePicker placeholderText='Data disponivel' onChange={() => { }} className='w-full' />
       </div>
 
-      <TimeListButton className="w-full mt-4 text-primary" times={horarios} onTimeSelect={setSelectedHorario} />
+      <TimeListButton 
+      className="w-full mt-4 text-primary" 
+      times={horarios} 
+      onTimeSelect={setSelectedHorario} 
+      />
+
       <Input
         {...register('hours', {
           required: {
@@ -56,9 +61,11 @@ const CourtReservation = ({ court }: CourtReservationProps) => {
           },
         })}
         placeholder='Horário da Reserva'
-        error={!!errors?.hours} 
-        errorMessage={errors?.hours?.message} 
-        />
+        error={!!errors?.hours}
+        errorMessage={errors?.hours?.message}
+        value={selectedHorario?.toString()}
+        readOnly
+      />
 
       <div className="flex justify-between mt-3">
         <p className='font-medium text-sm text-primary'>Total: </p>
