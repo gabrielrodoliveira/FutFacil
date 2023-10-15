@@ -5,11 +5,12 @@ import React, { useState } from 'react';
 import { Court } from '@prisma/client';
 import TimeListButton from '@/components/TimeListButton';
 import Button from '@/components/Button';
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import Input from '@/components/Input';
 
 interface CourtReservationForm {
   hours: string;
+  dateReservation: Date | null
 }
 
 interface CourtReservationProps {
@@ -33,6 +34,7 @@ const CourtReservation = ({ court }: CourtReservationProps) => {
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm<CourtReservationForm>();
 
   const onSubmit = (data: any) => {
@@ -44,14 +46,39 @@ const CourtReservation = ({ court }: CourtReservationProps) => {
 
     <div className="flex flex-col px-5">
       <div className="flex gap-4">
-        <DatePicker placeholderText='Data disponivel' onChange={() => { }} className='w-full' />
+
+
+        <Controller
+          name="dateReservation"
+          rules={{
+            required: {
+              value: true,
+              message: "Data da reserva é obrigatório",
+            },
+          }}
+          control={control}
+          render={({ field }) => (
+            <DatePicker
+              error={!!errors?.dateReservation}
+              errorMessage={errors?.dateReservation?.message}
+              onChange={field.onChange}
+              selected={field.value}
+              placeholderText='Data disponivel'
+              className='w-full' />)}
+        />
+
+
       </div>
 
-      <TimeListButton 
-      className="w-full mt-4 text-primary" 
-      times={horarios} 
-      onTimeSelect={setSelectedHorario} 
+
+      <TimeListButton
+        className="w-full mt-4 text-primary"
+        times={horarios}
+        onTimeSelect={(time) => {
+          setSelectedHorario(time);
+        }}
       />
+
 
       <Input
         {...register('hours', {
