@@ -38,6 +38,7 @@ model CourtReservation {
   dateReservation  DateTime
   timeReservation  String
   priceReservation Decimal  @db.Decimal(8, 2)
+  teste Date
 }
 
 model Account {

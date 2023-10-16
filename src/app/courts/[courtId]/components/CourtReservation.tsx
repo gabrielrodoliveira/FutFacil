@@ -7,14 +7,17 @@ import TimeListButton from '@/components/TimeListButton';
 import Button from '@/components/Button';
 import { Controller, useForm } from "react-hook-form";
 import Input from '@/components/Input';
+import { NextResponse } from "next/server";
+
+interface CourtReservationProps {
+  courtId: string;
+  priceReservation: number;
+}
 
 interface CourtReservationForm {
   hours: string;
-  dateReservation: Date | null
-}
-
-interface CourtReservationProps {
-  court: Court
+  dateReservation: Date | null;
+  timeReservation: string;
 }
 
 
@@ -28,7 +31,7 @@ const horarios = [
   "20h00 - 22h00"
 ];
 
-const CourtReservation = ({ court }: CourtReservationProps) => {
+const CourtReservation = ({ courtId, priceReservation }: CourtReservationProps) => {
   const [selectedHorario, setSelectedHorario] = useState<string | null>(null);
   const {
     register,
@@ -37,9 +40,22 @@ const CourtReservation = ({ court }: CourtReservationProps) => {
     control,
   } = useForm<CourtReservationForm>();
 
-  const onSubmit = (data: any) => {
-    console.log({ data })
-  }
+  const onSubmit = async (data: CourtReservationForm) => {
+    const response = await fetch('http://localhost:3000/api/courts/check', {
+      method: 'POST',
+      body: Buffer.from(
+        JSON.stringify({
+          dateReservation: data.dateReservation,
+          timeReservation: data.timeReservation,
+          courtId
+        })
+      ),
+    });
+
+    const res = await response.json();
+
+    console.log({ res })
+  };
 
 
   return (
@@ -71,33 +87,32 @@ const CourtReservation = ({ court }: CourtReservationProps) => {
       </div>
 
 
-      <TimeListButton
+      {/* <TimeListButton
         className="w-full mt-4 text-primary"
         times={horarios}
         onTimeSelect={(time) => {
           setSelectedHorario(time);
         }}
-      />
+      /> */}
 
 
       <Input
-        {...register('hours', {
-          required: {
-            value: true,
-            message: 'Horário é obrigatório'
-          },
-        })}
+         {...register('hours', {
+           required: {
+             value: true,
+             message: 'Horário é obrigatório'
+           },
+         })}
         placeholder='Horário da Reserva'
-        error={!!errors?.hours}
-        errorMessage={errors?.hours?.message}
-        value={selectedHorario?.toString()}
-        readOnly
+        
+         error={!!errors?.hours}
+         errorMessage={errors?.hours?.message}
       />
 
       <div className="flex justify-between mt-3">
         <p className='font-medium text-sm text-primary'>Total: </p>
         {/* <label className="mt-3 text-primary">{selectedHorario}</label> */}
-        <p className='font-medium text-sm text-primary'>R$ {court.priceReservation.toString()} </p>
+        <p className='font-medium text-sm text-primary'>R$ {priceReservation.toString()} </p>
       </div>
 
       <div className='pb-10 border-b border-l-grayLighter w-full'>

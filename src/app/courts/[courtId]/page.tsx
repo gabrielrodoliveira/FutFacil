@@ -26,7 +26,7 @@ const CourtDetails = async ({ params }: { params: { courtId: string } }) => {
     <div className='container mx-auto'>
 
     <CourtHeader court={court}/>
-    <CourtReservation court={court}/>
+    <CourtReservation courtId={court.id} priceReservation={court.priceReservation as any}/>
     <CourtDescription description={court.description}/>
     <CourtHighlights highlights={court.highlights}/>
     <CourtLocation  location={court.location} descriptionLocation={court.description} />
