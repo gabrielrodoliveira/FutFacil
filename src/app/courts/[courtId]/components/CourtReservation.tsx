@@ -36,6 +36,7 @@ const CourtReservation = ({ courtId, priceReservation }: CourtReservationProps) 
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
     control,
   } = useForm<CourtReservationForm>();
@@ -55,6 +56,18 @@ const CourtReservation = ({ courtId, priceReservation }: CourtReservationProps) 
     const res = await response.json();
 
     console.log({ res })
+
+    if(res?.error?.code === 'COURT_ALREADY_RESERVED'){
+      setError("dateReservation",{
+        type:"manual",
+        message:"Essa data já está reservada"
+      });
+      setError("timeReservation",{
+        type:"manual",
+        message:"Esse horário já está reservado"
+      });
+      
+    }
   };
 
 
@@ -104,7 +117,6 @@ const CourtReservation = ({ courtId, priceReservation }: CourtReservationProps) 
            },
          })}
         placeholder='Horário da Reserva'
-        
          error={!!errors?.hours}
          errorMessage={errors?.hours?.message}
       />

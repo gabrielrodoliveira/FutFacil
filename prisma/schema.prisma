@@ -36,7 +36,7 @@ model CourtReservation {
   userId           String
   user             User     @relation(fields: [userId], references: [id])
   dateReservation  DateTime
-  timeReservation  String
+  timeReservation  String   
   priceReservation Decimal  @db.Decimal(8, 2)
 }
 
