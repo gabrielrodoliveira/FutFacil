@@ -4,11 +4,16 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
     const req = await request.json();
 
+    const court = await prisma.court.findUnique({
+        where: {
+            id: req.courtId,
+        },
+    });
+
     const reservations = await prisma.courtReservation.findMany({
         where: {
             courtId: req.courtId,
             dateReservation: {
-                // gte: new Date(req.dateReservation)
                 equals: new Date(req.dateReservation)
             },
             timeReservation: {
@@ -31,6 +36,7 @@ export async function POST(request: Request) {
     return new NextResponse(
         JSON.stringify({
             success: true,
+            court,
         })
     );
 }

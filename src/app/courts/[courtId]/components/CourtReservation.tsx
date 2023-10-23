@@ -8,6 +8,7 @@ import Button from '@/components/Button';
 import { Controller, useForm } from "react-hook-form";
 import Input from '@/components/Input';
 import { NextResponse } from "next/server";
+import { useRouter } from 'next/navigation';
 
 interface CourtReservationProps {
   courtId: string;
@@ -41,6 +42,9 @@ const CourtReservation = ({ courtId, priceReservation }: CourtReservationProps) 
     control,
   } = useForm<CourtReservationForm>();
 
+
+  const router = useRouter();
+
   const onSubmit = async (data: CourtReservationForm) => {
     const response = await fetch('http://localhost:3000/api/courts/check', {
       method: 'POST',
@@ -57,17 +61,20 @@ const CourtReservation = ({ courtId, priceReservation }: CourtReservationProps) 
 
     console.log({ res })
 
-    if(res?.error?.code === 'COURT_ALREADY_RESERVED'){
-      setError("dateReservation",{
-        type:"manual",
-        message:"Essa data já está reservada"
+    if (res?.error?.code === 'COURT_ALREADY_RESERVED') {
+      setError("dateReservation", {
+        type: "manual",
+        message: "Essa data já está reservada"
       });
-      setError("timeReservation",{
-        type:"manual",
-        message:"Esse horário já está reservado"
+      return setError("timeReservation", {
+        type: "manual",
+        message: "Esse horário já está reservado"
       });
-      
     }
+
+    router.push(
+      `/courts/${courtId}/confirmation?dateReservation=${data.dateReservation?.toISOString()}timeReservation=${data.timeReservation}`
+    );
   };
 
 
@@ -109,17 +116,19 @@ const CourtReservation = ({ courtId, priceReservation }: CourtReservationProps) 
       /> */}
 
 
-      <Input
-         {...register('hours', {
-           required: {
-             value: true,
-             message: 'Horário é obrigatório'
-           },
-         })}
+     <Input
+        {...register('timeReservation', {
+          required: {
+            value: true,
+            message: 'Horário é obrigatório'
+          },
+        })}
         placeholder='Horário da Reserva'
-         error={!!errors?.hours}
-         errorMessage={errors?.hours?.message}
-      />
+        error={!!errors?.hours}
+        errorMessage={errors?.hours?.message}
+      /> 
+
+    
 
       <div className="flex justify-between mt-3">
         <p className='font-medium text-sm text-primary'>Total: </p>
