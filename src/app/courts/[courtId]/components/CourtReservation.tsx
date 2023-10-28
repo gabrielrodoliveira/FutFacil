@@ -73,7 +73,7 @@ const CourtReservation = ({ courtId, priceReservation }: CourtReservationProps) 
     }
 
     router.push(
-      `/courts/${courtId}/confirmation?dateReservation=${data.dateReservation?.toISOString()}timeReservation=${data.timeReservation}`
+      `/courts/${courtId}/confirmation?dateReservation=${data.dateReservation?.toISOString()}&timeReservation=${data.timeReservation}`
     );
   };
 

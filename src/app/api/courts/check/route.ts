@@ -10,16 +10,37 @@ export async function POST(request: Request) {
         },
     });
 
+    const reqDate = new Date(req.dateReservation);
+
+    if (isNaN(reqDate.getTime())) {
+        return new NextResponse(
+            JSON.stringify({
+                error: {
+                    code: 'INVALID_DATE',
+                },
+            })
+        );
+    }
+
+    if (req.timeReservation === null) {
+        return new NextResponse(
+            JSON.stringify({
+                error: {
+                    code: 'INVALID_TIME',
+                },
+            })
+        );
+    }
+
     const reservations = await prisma.courtReservation.findMany({
         where: {
             courtId: req.courtId,
             dateReservation: {
-                equals: new Date(req.dateReservation)
+                equals: reqDate,
             },
             timeReservation: {
-                equals: req.timeReservation
+                equals: req.timeReservation,
             }
-            
         }
     })
 
