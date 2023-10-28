@@ -3,6 +3,10 @@ import Image from 'next/image';
 import { Court } from "@prisma/client";
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { format } from 'date-fns';
+import ptBR from "date-fns/locale/pt-BR";
+import Button from '@/components/Button';
+
 
 const CourtConfirmation = ({ params }: { params: { courtId: string } }) => {
     const [court, setCourt] = useState<Court | null>();
@@ -44,6 +48,8 @@ const CourtConfirmation = ({ params }: { params: { courtId: string } }) => {
 
     if (!court) return null;
 
+    const dateReserve = new Date(searchParams.get('dateReservation') as string);
+
     return (
         <div className="container mx-auto p-5">
             <h1 className='font-semibold text-xl text-primary'>Sua reserva</h1>
@@ -68,9 +74,15 @@ const CourtConfirmation = ({ params }: { params: { courtId: string } }) => {
                     <p>R$ {court.priceReservation as any}</p>
                 </div>
                 <div className="flex justify-between mt-2">
+                    <p className=' text-primaryDarker'>Data: </p>
+                    <p>{format(dateReserve, "dd 'de' MMMM", { locale: ptBR })}</p>
+                </div>
+                <div className="flex justify-between mt-2">
                     <p className=' text-primaryDarker'>Horário: </p>
                     <p>{timeReservation}</p>
                 </div>
+
+                <Button className='mt-5'>Finalizar Reserva</Button>
             </div>
         </div>
     )
