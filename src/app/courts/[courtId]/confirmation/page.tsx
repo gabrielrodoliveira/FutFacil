@@ -8,6 +8,8 @@ import ptBR from "date-fns/locale/pt-BR";
 import Button from '@/components/Button';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 
 const CourtConfirmation = ({ params }: { params: { courtId: string } }) => {
@@ -17,7 +19,7 @@ const CourtConfirmation = ({ params }: { params: { courtId: string } }) => {
 
     const searchParams = useSearchParams()
 
-    const {status} =useSession();
+    const { status, data } = useSession();
 
     const dateReservation = searchParams.get('dateReservation');
     const timeReservation = searchParams.get('timeReservation');
@@ -35,6 +37,7 @@ const CourtConfirmation = ({ params }: { params: { courtId: string } }) => {
                 body: JSON.stringify(requestBody),
             });
 
+
             console.log('Request Body:', requestBody); // Log the request body
 
             response.json()
@@ -47,7 +50,7 @@ const CourtConfirmation = ({ params }: { params: { courtId: string } }) => {
                 });
         };
 
-        if(status ==='unauthenticated'){
+        if (status === 'unauthenticated') {
             router.push('/')
         }
 
@@ -57,6 +60,31 @@ const CourtConfirmation = ({ params }: { params: { courtId: string } }) => {
     console.log({ court });
 
     if (!court) return null;
+
+    const handleBuyClick = async () => {
+        const res = await fetch("http://localhost:3000/api/courts/reservation", {
+            method: "POST",
+            body: Buffer.from(
+                JSON.stringify({
+                    courtId: params.courtId,
+                    dateReservation: searchParams.get("dateReservation"),
+                    timeReservation: searchParams.get("timeReservation"),
+                    userId: (data?.user as any)?.id!,
+                    priceReservation: court.priceReservation,
+                })
+            ),
+        });
+
+        console.log('Reposta POST:', res);
+
+        if (!res.ok) {
+            return toast.error("Ocorreu um erro ao realizar a reserva!", { position: "bottom-center" });
+        }
+
+        router.push('/');
+
+        toast.success("Reserva realizada com sucesso!", { position: "bottom-center" });
+    };
 
     const dateReserve = new Date(searchParams.get('dateReservation') as string);
 
@@ -92,7 +120,9 @@ const CourtConfirmation = ({ params }: { params: { courtId: string } }) => {
                     <p>{timeReservation}</p>
                 </div>
 
-                <Button className='mt-5'>Finalizar Reserva</Button>
+                <Button className='mt-5' onClick={handleBuyClick}>
+                    Finalizar Reserva
+                </Button>
             </div>
         </div>
     )

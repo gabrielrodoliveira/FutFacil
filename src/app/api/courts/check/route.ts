@@ -10,6 +10,7 @@ export async function POST(request: Request) {
         },
     });
 
+
     const reqDate = new Date(req.dateReservation);
 
     if (isNaN(reqDate.getTime())) {
