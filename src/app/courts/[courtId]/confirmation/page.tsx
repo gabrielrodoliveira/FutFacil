@@ -6,12 +6,18 @@ import { useSearchParams } from 'next/navigation';
 import { format } from 'date-fns';
 import ptBR from "date-fns/locale/pt-BR";
 import Button from '@/components/Button';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 
 const CourtConfirmation = ({ params }: { params: { courtId: string } }) => {
     const [court, setCourt] = useState<Court | null>();
 
+    const router = useRouter();
+
     const searchParams = useSearchParams()
+
+    const {status} =useSession();
 
     const dateReservation = searchParams.get('dateReservation');
     const timeReservation = searchParams.get('timeReservation');
@@ -41,8 +47,12 @@ const CourtConfirmation = ({ params }: { params: { courtId: string } }) => {
                 });
         };
 
+        if(status ==='unauthenticated'){
+            router.push('/')
+        }
+
         fetchCourt()
-    }, []);
+    }, [status]);
 
     console.log({ court });
 
