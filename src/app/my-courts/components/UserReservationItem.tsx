@@ -3,16 +3,37 @@ import Image from 'next/image';
 import React from 'react';
 import ptBR from "date-fns/locale/pt-BR";
 import { format } from 'date-fns';
+import Button from '@/components/Button';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 
 interface UserReservationProps {
     reservation: Prisma.CourtReservationGetPayload<{
         include: { court: true }
     }>
+    fetchReservations: () => void;
 }
 
-const UserReservationItem = ({ reservation }: UserReservationProps) => {
+const UserReservationItem = ({ reservation, fetchReservations  }: UserReservationProps) => {
+    const router = useRouter()
     const { court } = reservation
+
+    const handleDeleteClick = async () => {
+        const res = await fetch(`/api/courts/reservation/${reservation.id}`, {
+            method: 'DELETE'
+        })
+
+        if (!res.ok) {
+            toast.success('Ocorreu um erro ao cancelar a reserva', {position: 'bottom-center'})
+
+        }
+
+        toast.success('Reserva cancelada com sucesso', {position: 'bottom-center'})
+
+        fetchReservations();
+    }
+
     return (
         <div>
 
@@ -32,23 +53,26 @@ const UserReservationItem = ({ reservation }: UserReservationProps) => {
 
                 <h3 className='font-semibold text-lg text-primaryDarker mt-4'>Informações sobre a reserva</h3>
                 <div className="flex justify-between mt-2">
-                    <p className=' text-primaryDarker'>Valor: </p>
-                    <p>R$ {reservation.priceReservation as any}</p>
-                </div>
-                <div className="flex justify-between mt-2">
-                    <p className=' text-primaryDarker'>Data: </p>
+                    <p className=' text-primaryDarker text-sm'>Data: </p>
                     {reservation.dateReservation ? (
-                        <p>{format(new Date(reservation.dateReservation), "dd 'de' MMMM", { locale: ptBR })}</p>
+                        <p className='text-sm'>{format(new Date(reservation.dateReservation), "dd 'de' MMMM", { locale: ptBR })}</p>
                     ) : (
-                        <p>Data inválida</p>
+                        <p className='text-sm'>Data inválida</p>
                     )}
                 </div>
 
                 <div className="flex justify-between mt-2">
-                    <p className=' text-primaryDarker'>Horário: </p>
-                    <p>{reservation.timeReservation}</p>
+                    <p className=' text-primaryDarker text-sm'>Horário: </p>
+                    <p className='text-sm'>{reservation.timeReservation}</p>
+                </div>
+                <div className="flex justify-between mt-2">
+                    <p className=' text-primaryDarker text-sm'>Valor: </p>
+                    <p className='text-sm'>R$ {Number(reservation.priceReservation) as any}</p>
                 </div>
 
+                <Button variant='danger' className='mt-5' onClick={handleDeleteClick}>
+                    Cancelar Reserva
+                </Button>
 
             </div>
         </div>
