@@ -29,7 +29,7 @@ const CourtDetails = async ({ params }: { params: { courtId: string } }) => {
     <CourtReservation courtId={court.id} priceReservation={court.priceReservation as any}/>
     <CourtDescription description={court.description}/>
     <CourtHighlights highlights={court.highlights}/>
-    <CourtLocation  location={court.location} descriptionLocation={court.description} />
+    <CourtLocation  linkMaps={court.linkMaps} location={court.location} descriptionLocation={court.description} />
     </div>
   )
 }

@@ -100,7 +100,8 @@ const CourtReservation = ({ courtId, priceReservation }: CourtReservationProps) 
               onChange={field.onChange}
               selected={field.value}
               placeholderText='Data disponivel'
-              className='w-full' />)}
+              className='w-full'
+              minDate={new Date()} />)}
         />
 
 
