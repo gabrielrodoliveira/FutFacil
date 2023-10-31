@@ -26,7 +26,7 @@ const CourtSearch = () => {
 
   const onSubmit = (data: CourtSearchForm) => {
     console.log('Oi', data)
-    router.push(`/courts/search?text=${data.text}&dateReservation=${data.dateReservation?.toISOString()}&budgt=${data.budget}`)
+    router.push(`/courts/search?text=${data.text}&dateReservation=${data.dateReservation?.toISOString()}&budget=${data.budget}`)
 
   }
 
@@ -38,9 +38,9 @@ const CourtSearch = () => {
       </h1>
 
       <div className="flex flex-col gap-4 mt-5">
-        <Input placeholder='Onde você quer jogar?'
-          error={!errors.text}
-          errorMessage={errors.text?.message}
+        <Input 
+          placeholder='Onde você quer jogar?'
+          
           {...register('text', {
             required: {
               value: true,
