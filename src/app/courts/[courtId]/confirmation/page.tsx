@@ -9,7 +9,7 @@ import Button from '@/components/Button';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { ToastContainer, toast } from 'react-toastify';
-
+import { loadStripe } from "@stripe/stripe-js";
 
 
 const CourtConfirmation = ({ params }: { params: { courtId: string } }) => {
@@ -62,26 +62,34 @@ const CourtConfirmation = ({ params }: { params: { courtId: string } }) => {
     if (!court) return null;
 
     const handleBuyClick = async () => {
-        const res = await fetch("http://localhost:3000/api/courts/reservation", {
+        const res = await fetch("/api/payment", {
             method: "POST",
             body: Buffer.from(
                 JSON.stringify({
                     courtId: params.courtId,
                     dateReservation: searchParams.get("dateReservation"),
                     timeReservation: searchParams.get("timeReservation"),
-                    userId: (data?.user as any)?.id!,
                     priceReservation: court.priceReservation,
+                    coverImage: court.coverImage,
+                    name: court.name,
+                    dscription: court.description
                 })
             ),
         });
 
-        console.log('Reposta POST:', res);
+        console.log('Reposta POST Payment:', res);
 
         if (!res.ok) {
             return toast.error("Ocorreu um erro ao realizar a reserva!", { position: "bottom-center" });
         }
 
-        router.push('/');
+        const { sessionId } = await res.json();
+
+        const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY as string);
+
+        await stripe?.redirectToCheckout({ sessionId });
+
+        // router.push('/');
 
         toast.success("Reserva realizada com sucesso!", { position: "bottom-center" });
     };
