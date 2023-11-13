@@ -10,25 +10,25 @@ const QuickSearch = () => {
             <div className="w-full h-[2px] bg-grayPrimary"></div>
         </div>
 
-        <div className="flex w-fill justify-between mt-5">
+        <div className="flex w-full justify-between mt-5 lg:mt-10 lg:justify-center gap-40">
             <div className="flex flex-col items-center gap-1">
                 <Image width={35} height={35} src="/bola-de-futebol.png" alt='futebol'/>
-                <p className='text-sm text-grayLighter'>Futebol</p>
+                <p className='text-sm lg:text-base text-grayLighter'>Futebol</p>
             </div>
 
             <div className="flex flex-col items-center gap-1">
                 <Image width={35} height={35} src="/futevolei.png" alt='futevolei'/>
-                <p className='text-sm text-grayLighter'>Futevôlei</p>
+                <p className='text-sm lg:text-base text-grayLighter'>Futevôlei</p>
             </div>
 
             <div className="flex flex-col items-center gap-1">
                 <Image width={35} height={35} src="/tenis.png" alt='beach tennis'/>
-                <p className='text-sm text-grayLighter'>Beach Tennis</p>
+                <p className='text-sm lg:text-base text-grayLighter'>Beach Tennis</p>
             </div>
 
             <div className="flex flex-col items-center gap-1">
                 <Image width={35} height={35} src="/volei-de-praia.png" alt='volei de praia'/>
-                <p className='text-sm text-grayLighter'>Volei de Praia</p>
+                <p className='text-sm lg:text-base text-grayLighter'>Volei de Praia</p>
             </div>
             
 

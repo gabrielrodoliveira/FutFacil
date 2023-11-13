@@ -32,15 +32,15 @@ const CourtSearch = () => {
 
 
   return (
-    <div className="container mx-auto p-5 bg-search-background bg-cover bg-center bg-no-repeat">
-      <h1 className='font-semibold text-2xl text-grayPrimary text-center'>
+    <div className="container mx-auto p-5 bg-search-background bg-cover bg-center bg-no-repeat lg:py-28">
+      <h1 className='font-semibold text-2xl text-grayPrimary text-center lg:text-[2.5rem]'>
         Encontre a sua <span className='text-primary'>quadra!</span>
       </h1>
 
-      <div className="flex flex-col gap-4 mt-5">
-        <Input 
+      <div className="flex flex-col gap-4 mt-5 lg:flex-row lg:max-w-[948px] lg:mx-auto lg:p-4 lg:bg-primary lg:mt-12 lg:bg-opacity-20 lg:rounded-lg">
+        <Input
           placeholder='Onde você quer jogar?'
-          
+
           {...register('text', {
             required: {
               value: true,
@@ -48,7 +48,7 @@ const CourtSearch = () => {
             }
           })} />
 
-        <div className="flex gap-4">
+        <div className="flex gap-4 lg:w-full">
           <Controller
             name="dateReservation"
             control={control}
@@ -73,7 +73,7 @@ const CourtSearch = () => {
 
         </div>
 
-        <Button onClick={() => handleSubmit(onSubmit)()}>
+        <Button onClick={() => handleSubmit(onSubmit)()} className="w-1/2 lg:h-fit">
           Buscar
         </Button>
       </div>
