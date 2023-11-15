@@ -73,7 +73,7 @@ const CourtSearch = () => {
 
         </div>
 
-        <Button onClick={() => handleSubmit(onSubmit)()} className="w-1/2 lg:h-fit">
+        <Button onClick={() => handleSubmit(onSubmit)()} className="w-full lg:h-fit">
           Buscar
         </Button>
       </div>

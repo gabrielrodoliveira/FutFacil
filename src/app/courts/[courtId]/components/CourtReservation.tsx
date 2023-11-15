@@ -2,13 +2,12 @@
 
 import DatePicker from '@/components/DatePicker';
 import React, { useState } from 'react';
-import { Court } from '@prisma/client';
-import TimeListButton from '@/components/TimeListButton';
 import Button from '@/components/Button';
 import { Controller, useForm } from "react-hook-form";
 import Input from '@/components/Input';
-import { NextResponse } from "next/server";
 import { useRouter } from 'next/navigation';
+import Select from 'react-select';
+
 
 interface CourtReservationProps {
   courtId: string;
@@ -23,13 +22,14 @@ interface CourtReservationForm {
 
 
 const horarios = [
-  "08h00 - 10h00",
-  "10h00 - 12h00",
-  "12h00 - 14h00",
-  "14h00 - 16h00",
-  "16h00 - 18h00",
-  "18h00 - 20h00",
-  "20h00 - 22h00"
+  { value: "08h00 - 10h00", label: "08h00 - 10h00" },
+  { value: "10h00 - 12h00", label: "10h00 - 12h00" },
+  { value: "12h00 - 14h00", label: "12h00 - 14h00" },
+  { value: "14h00 - 16h00", label: "14h00 - 16h00" },
+  { value: "16h00 - 18h00", label: "16h00 - 18h00" },
+  { value: "18h00 - 20h00", label: "18h00 - 20h00" },
+  { value: "20h00 - 22h00", label: "20h00 - 22h00" },
+
 ];
 
 const CourtReservation = ({ courtId, priceReservation }: CourtReservationProps) => {
@@ -40,7 +40,9 @@ const CourtReservation = ({ courtId, priceReservation }: CourtReservationProps) 
     setError,
     formState: { errors },
     control,
+    setValue
   } = useForm<CourtReservationForm>();
+
 
 
   const router = useRouter();
@@ -56,6 +58,7 @@ const CourtReservation = ({ courtId, priceReservation }: CourtReservationProps) 
         })
       ),
     });
+
 
     const res = await response.json();
 
@@ -103,21 +106,23 @@ const CourtReservation = ({ courtId, priceReservation }: CourtReservationProps) 
               className='w-full'
               minDate={new Date()} />)}
         />
-
-
       </div>
 
 
-      {/* <TimeListButton
-        className="w-full mt-4 text-primary"
-        times={horarios}
-        onTimeSelect={(time) => {
-          setSelectedHorario(time);
+      <Select
+        name='setTime'
+        className='mb-3 mt-3'
+        placeholder='Horário da Reserva'
+        isSearchable
+        onChange={(selectedOption) => {
+          const selectedValue = selectedOption?.value ?? null;
+          setSelectedHorario(selectedValue);
+          setValue('timeReservation', selectedValue !== null ? selectedValue : '');
         }}
-      /> */}
+        options={horarios}
+      />
 
-
-     <Input
+      <Input
         {...register('timeReservation', {
           required: {
             value: true,
@@ -125,25 +130,19 @@ const CourtReservation = ({ courtId, priceReservation }: CourtReservationProps) 
           },
         })}
         placeholder='Horário da Reserva'
-        error={!!errors?.hours}
-        errorMessage={errors?.hours?.message}
-      /> 
+        error={!!errors?.timeReservation}
+        errorMessage={errors?.timeReservation?.message}
+      />
 
-    
 
       <div className="flex justify-between mt-3">
         <p className='font-medium text-sm text-primary'>Total: </p>
-        {/* <label className="mt-3 text-primary">{selectedHorario}</label> */}
         <p className='font-medium text-sm text-primary'>R$ {priceReservation.toString()} </p>
       </div>
 
       <div className='pb-10 border-b border-l-grayLighter w-full'>
         <Button onClick={() => handleSubmit(onSubmit)()} className='mt-3 w-full'>Reservar agora</Button>
       </div>
-
-      {/* <label className="mt-3 text-primary">Horário selecionado:</label> */}
-      {/* <input {...register('hours', { required: true })} type="text" value={selectedHorario || ''} readOnly className="border-b-2 border-primary" /> */}
-
     </div>
 
   )

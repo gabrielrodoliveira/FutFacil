@@ -20,18 +20,30 @@ const getCourtDetails = async (courtId: string) => {
 const CourtDetails = async ({ params }: { params: { courtId: string } }) => {
   const court = await getCourtDetails(params.courtId)
 
-  if(!court) return null;
+  if (!court) return null;
 
   return (
-    <div className='container mx-auto'>
 
-    <CourtHeader court={court}/>
-    <CourtReservation courtId={court.id} priceReservation={court.priceReservation as any}/>
-    <CourtDescription description={court.description}/>
-    <CourtHighlights highlights={court.highlights}/>
-    <CourtLocation  linkMaps={court.linkMaps} location={court.location} descriptionLocation={court.description} />
+
+
+
+
+    <div className="container mx-auto lg:px-40 lg:pt-10">
+      <CourtHeader court={court} />
+      <div className="flex flex-col lg:flex-row lg:mt-12 lg:gap-20">
+        <div className="lg:order-2">
+          <CourtReservation courtId={court.id} priceReservation={court.priceReservation as any} />
+        </div>
+
+        <div className="lg:order-1">
+          <CourtDescription description={court.description} />
+          <CourtHighlights highlights={court.highlights} />
+        </div>
+      </div>
+      <CourtLocation linkMaps={court.linkMaps} location={court.location} descriptionLocation={court.description} />
     </div>
-  )
-}
+  );
+};
+
 
 export default CourtDetails;
