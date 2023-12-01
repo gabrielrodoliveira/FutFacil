@@ -40,7 +40,7 @@ const CourtDetails = async ({ params }: { params: { courtId: string } }) => {
           <CourtHighlights highlights={court.highlights} />
         </div>
       </div>
-      <CourtLocation linkMaps={court.linkMaps} location={court.location} descriptionLocation={court.description} />
+      <CourtLocation linkMaps={court.linkMaps} location={court.location} descriptionLocation={court.locationDescription} />
     </div>
   );
 };

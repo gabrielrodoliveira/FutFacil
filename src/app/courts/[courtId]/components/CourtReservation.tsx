@@ -83,7 +83,7 @@ const CourtReservation = ({ courtId, priceReservation }: CourtReservationProps) 
 
   return (
 
-    <div className="flex flex-col px-5">
+    <div className="flex flex-col px-5 lg:min-w-[380px] lg:p-5 lg:border-grayLighter lg:border lg:rounded-lg lg:shadow-md">
       <div className="flex gap-4">
 
 
@@ -122,7 +122,7 @@ const CourtReservation = ({ courtId, priceReservation }: CourtReservationProps) 
         options={horarios}
       />
 
-      <Input
+      {/* <Input
         {...register('timeReservation', {
           required: {
             value: true,
@@ -132,7 +132,7 @@ const CourtReservation = ({ courtId, priceReservation }: CourtReservationProps) 
         placeholder='Horário da Reserva'
         error={!!errors?.timeReservation}
         errorMessage={errors?.timeReservation?.message}
-      />
+      /> */}
 
 
       <div className="flex justify-between mt-3">
